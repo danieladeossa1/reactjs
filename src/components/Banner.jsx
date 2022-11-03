@@ -1,6 +1,7 @@
 import institucion from '../assets/images/institucion1.jpg'
 import estudiantes from '../assets/images/estudiantes.jpg'
 import school from '../assets/images/school.jpg'
+//carrusel
 function Banner() {
     return (
         <div classNameName="container">
