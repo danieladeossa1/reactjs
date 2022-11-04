@@ -1,4 +1,4 @@
-//Permite definir los estados (variables) del componente
+//Permite definir los estados (variables) del componente .
 import { paste } from '@testing-library/user-event/dist/paste';
 import { useState } from 'react';
 export default function Grade() {
