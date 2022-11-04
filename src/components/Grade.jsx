@@ -14,16 +14,49 @@ export default function Grade() {
     //Definir los métodos
     const handleSubmit = (event) => {
         event.preventDefault(); //No hace postback (va al servidor y cuando regrese del servicdor borra la información en el formulario)
+
         //validar que todos los datos se hayan diligenciado
-        if (ident != "" && fullname != "" && course != "" && qualify1 != "" && qualify2 != "" && qualify3 != ""){
-            setFinal((parseFloat(qualify1)+parseFloat(qualify2)+parseFloat(qualify3))/3);
+
+        if (ident != "" && fullname != "" && course != "" && qualify1 != "" && qualify2 != "" && qualify3 != "") {
+            //if (qualify1 >= 0 && qualify1 <= 5 && qualify2 >= 0 && qualify2 <= 5 && qualify3 >= 0 && qualify3 <= 5) {
+                let definitiva = ((parseFloat(qualify1) + parseFloat(qualify2) + parseFloat(qualify3)) / 3);
+                setFinal(definitiva.toFixed(1));
+                let obs;
+                if (definitiva >= 3) {
+                    obs = "Gana";
+                }
+                else if (definitiva < 2) {
+                    obs = "Pierde"
+                }
+                else {
+                    obs = "Habilita"
+                }
+                if (course == "ma" && obs == "Habilita") {
+                    obs = "Esta asignatura no se puede habilitar"
+                }
+                setObservation(obs);
+
+            //}
         }
-        else{
+        else {
             alert("Debe ingresar todos los datos...")
         }
-        
+
     }
 
+    function onClean(e){
+        e.preventDefault();
+        //Borrar el contenido de los estados
+        setIdent("");
+        setFullname("");
+        setCourse("");
+        setQualify1("");
+        setQualify2("");
+        qualify3("");
+        setFinal("");
+        setObservation("");
+
+    }
     return (
         <div className="container">
             <h2>Calificaciones</h2>
@@ -57,15 +90,19 @@ export default function Grade() {
                 <div className="row mt-3">
                     <div className="col">
                         <label htmlFor="course">Asignatura</label>
-                        <input
-                            type="text"
-                            placeholder="Asignatura"
-                            id="course"
+                        <select
                             name="course"
+                            id="course"
                             className='form-control'
-                            onChange={event => setCourse(event.target.value)}
                             value={course}
-                        />
+                            onChange={e => setCourse(e.target.value)}
+                        >
+                            <option value="" disabled>Seleccione una asignatura</option>
+                            <option value="mv1">Móviles I</option>
+                            <option value="w1">Web I</option>
+                            <option value="ma">Metodologías ágiles</option>
+                        </select>
+
                     </div>
                     <div className="col">
                         <label htmlFor="qualify1">Nota 1</label>
@@ -137,6 +174,11 @@ export default function Grade() {
                         </button>
                     </div>
                 </div>
+
+            </form>
+
+            <form onSubmit={onClean}>
+                <button className='btn btn-dark' >Limpiar</button>
 
             </form>
         </div>
